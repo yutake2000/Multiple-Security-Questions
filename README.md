@@ -24,8 +24,8 @@ python3 decrypt.py input_file -
 
 ## 例
 
-sample.msq が同梱されているので、以下のコマンドを打つことで復号できます。
-秘密の質問は有名なクイズになっていて、ボーダーは2問です。
+sample.msq は以下のコマンドを打つことで復号できます。<br>
+秘密の質問は有名なクイズになっていて、必要正解数は2問です。<br>
 ```
 python3 decrypt.py sample.msq sample.txt
 ```
