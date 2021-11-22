@@ -14,13 +14,20 @@ python3 encrypt.py input_file output_file
 
 ### 復号したファイルを保存する場合
 ```
-python3 decrypt.py input_file output_file
+python3 decrypt.py input_file -o output_file
 ```
 
 ### 復号したファイル(主にテキストファイル)を標準出力する場合
 ```
-python3 decrypt.py input_file -
+python3 decrypt.py input_file -o -
 ```
+
+### 復号して元のファイルと同じになるか確かめる場合
+```
+python3 decrypt.py input_file -c src_file
+```
+src_file は暗号化する前のファイル<br>
+暗号化した後、元のファイルを削除する前に復号ができるかどうか試すと良いでしょう。<br>
 
 ## 例
 

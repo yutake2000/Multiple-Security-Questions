@@ -3,13 +3,22 @@ from Crypto.Cipher import AES
 import random
 import sys
 import getpass
+from argparse import ArgumentParser
 
-if len(sys.argv) != 3:
-    print(f"usage: python3 {sys.argv[0]} <input file> (<output file> | -)")
-    exit()
+argparser = ArgumentParser()
+argparser.add_argument('input', help="input filename")
+argparser.add_argument('-o', '--output', metavar='output', help="output filename or '-' for standard output")
+argparser.add_argument('-c', '--check', metavar='src',
+                       help='check whether encryption completed correctly')
+args = argparser.parse_args()
 
-input_file = sys.argv[1]
-output_file = sys.argv[2]
+if args.output == None and args.check == None:
+    print("either -o or -c is necessary")
+    exit(0)
+
+input_file = args.input
+output_file = args.output
+src_file = args.check
 
 MOD = 1<<256
 
@@ -81,7 +90,18 @@ key = key.to_bytes(32, "little")
 cipher = AES.new(key, AES.MODE_CBC, iv)
 decoded = cipher.decrypt(b)
 
-if output_file == "-":
+if output_file == None:
+
+    hashOut = hashlib.md5(decoded[0:size]).hexdigest()
+    with open(src_file, "rb") as f:
+        hashSrc = hashlib.md5(f.read()).hexdigest()
+
+    if hashOut == hashSrc:
+        print("Correct!")
+    else:
+        print("Incorrect...")
+
+elif output_file == "-":
     print(decoded[0:size].decode("utf-8"))
 else:
     with open(output_file, "wb") as f:
